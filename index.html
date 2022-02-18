@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // receive from iframe
+        window.addEventListener("message", receiveMessage);
+
+        function receiveMessage(event) {
+            if (event.origin !== 'http://localhost:3000') return;
+            if (typeof event.data === 'string') view.innerText = event.data
+        }
+        //
+
+        function sendIFrameData(data) {
+            const origin = "http://localhost:3000";
+
+            iframeId.contentWindow.postMessage(data, origin);
+        }
+        function submitInput() {
+            sendIFrameData(input.value)
+        }
+    </script>
+    <iframe style="display: block;" name="myframe" id="iframeId" src="./iframeContent.html" ></iframe>
+    <input id='input'>
+    <button onclick="submitInput()"> send to iFrame</button>
+    <h4>From iframe:</h4>
+    <div style="font-size: xx-large" id='view'></div>
+</body>
+</html>
